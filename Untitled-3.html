@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bersahaja - Kedai Kopi Kediri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --v-brown: #4B3621; --v-cream: #F5F5DC; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--v-cream); color: var(--v-brown); scroll-behavior: smooth; }
+        .modal { display: none; position: fixed; z-index: 100; inset: 0; background: rgba(0,0,0,0.8); }
+        .menu-card { background: rgba(255,255,255,0.4); border: 1px solid #d6d3d1; transition: all 0.3s; }
+        .menu-card:hover { background: rgba(255,255,255,0.7); transform: translateY(-2px); }
+        iframe { border-radius: 1rem; } 
+    </style>
+</head>
+<body class="pb-10">
+
+    <nav class="sticky top-0 z-50 bg-[#F5F5DC]/90 backdrop-blur-md border-b border-stone-300 py-4 px-6 md:px-12 flex justify-between items-center">
+        <div class="text-2xl font-bold italic tracking-tighter">Bersahaja.</div>
+        <div class="flex items-center space-x-6">
+            <ul class="hidden md:flex space-x-8 font-medium text-xs uppercase tracking-widest">
+                <li><a href="#home" class="hover:text-amber-900 transition">Home</a></li>
+                <li><a href="#menu" class="hover:text-amber-900 transition">Menu</a></li>
+                <li><a href="#contact" class="hover:text-amber-900 transition">Kontak</a></li>
+            </ul>
+            <button onclick="toggleCart()" class="relative p-2 bg-stone-200 rounded-full hover:bg-stone-300 transition">
+                🛒 <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <section id="home" class="relative h-[60vh] flex items-center justify-center text-center text-white">
+        <img src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?q=80&w=1974&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="relative z-10 px-4">
+            <h1 class="text-5xl md:text-7xl mb-2">Bersahaja</h1>
+            <p class="text-lg italic font-light">Rasa yang Jujur, Suasana yang Menetap.</p>
+        </div>
+    </section>
+
+    <section id="menu" class="py-16 px-6 max-w-7xl mx-auto">
+        <h2 class="text-4xl text-center mb-12">Daftar Menu Kami</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <h3 class="text-2xl border-b border-stone-400 pb-2">Coffee</h3>
+                <div class="space-y-2">
+                    <button onclick="addToCart('Tubruk Susu', 12000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Tubruk Susu</span> <span class="font-bold">12k +</span></button>
+                    <button onclick="addToCart('Americano', 15000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Americano</span> <span class="font-bold">15k +</span></button>
+                    <button onclick="addToCart('Kopi Ijo Susu', 15000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Ijo Susu</span> <span class="font-bold">15k +</span></button>
+                    <button onclick="addToCart('Coffee Beer', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Coffee Beer</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Kopi Butter', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Butter</span> <span class="font-bold">18k +</span></button>
+                </div>
+                <h3 class="text-2xl border-b border-stone-400 pb-2 pt-6">Tea</h3>
+                <div class="space-y-2">
+                    <button onclick="addToCart('Lemon Tea', 12000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Lemon Tea</span> <span class="font-bold">12k +</span></button>
+                    <button onclick="addToCart('Strawberry Tea', 15000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Strawberry Tea</span> <span class="font-bold">15k +</span></button>
+                    <button onclick="addToCart('Milk Tea', 15000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Milk Tea</span> <span class="font-bold">15k +</span></button>
+                    <button onclick="addToCart('Lychee Tea', 15000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Lychee Tea</span> <span class="font-bold">15k +</span></button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-2xl border-b border-stone-400 pb-2">Ice Coffee</h3>
+                <div class="space-y-2 text-xs">
+                    <button onclick="addToCart('Kopi Susu Bersahaja', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Susu Bersahaja</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Kopi Rum', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Rum</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Kopi Vanilla', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Vanilla</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Kopi Tiramisu', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Tiramisu</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Kopi Bailyes', 22000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Bailyes</span> <span class="font-bold">22k +</span></button>
+                    <button onclick="addToCart('Kopi Strawberry', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Strawberry</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Kopi Avocado', 22000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Avocado</span> <span class="font-bold">22k +</span></button>
+                    <button onclick="addToCart('Kopi Mangga', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Mangga</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Kopi Coconut', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Kopi Coconut</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Butterscotch Seasalt', 25000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Butterscotch Seasalt</span> <span class="font-bold">25k +</span></button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-2xl border-b border-stone-400 pb-2">Milk Based</h3>
+                <div class="space-y-2">
+                    <button onclick="addToCart('Milk Strawberry', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Strawberry</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Milk Caramel', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Caramel</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Milk Red Velvet', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Red Velvet</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Milk Taro', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Taro</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Milk Watermelon', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Watermelon</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Milk Matcha', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Matcha</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Milk Chocolate', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Chocolate</span> <span class="font-bold">18k +</span></button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-2xl border-b border-stone-400 pb-2">Food & Snack</h3>
+                <div class="space-y-2 text-xs">
+                    <button onclick="addToCart('Mie Goreng', 15000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Mie Goreng</span> <span class="font-bold">15k +</span></button>
+                    <button onclick="addToCart('Mie Kuah Susu', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Mie Kuah Susu</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Nasi Chicken Katsu', 22000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Nasi Chicken Katsu</span> <span class="font-bold">22k +</span></button>
+                    <button onclick="addToCart('Nasi Gila', 20000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Nasi Gila</span> <span class="font-bold">20k +</span></button>
+                    <button onclick="addToCart('Nasi Kulit', 18000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Nasi Kulit</span> <span class="font-bold">18k +</span></button>
+                    <button onclick="addToCart('Cireng', 12000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Cireng</span> <span class="font-bold">12k +</span></button>
+                    <button onclick="addToCart('Sampler', 25000)" class="w-full text-left menu-card p-3 rounded flex justify-between items-center"><span>Sampler</span> <span class="font-bold">25k +</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-[#4B3621] text-[#F5F5DC] pt-16 pb-8 px-6">
+        <div class="max-w-6xl mx-auto border-b border-stone-700 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                <div class="space-y-6">
+                    <div>
+                        <h2 class="text-3xl italic mb-4">Bersahaja.</h2>
+                        <p class="text-stone-400 text-sm max-w-sm leading-relaxed">
+                            <strong>Kedai Bersahaja</strong><br>
+                            Gg. II, Balowerti, Kec. Kota, Kota Kediri, Jawa Timur 64129
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w-full h-72 shadow-2xl overflow-hidden bg-stone-800">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0" 
+                        loading="lazy" 
+                        allowfullscreen 
+                        src="https://maps.google.com/maps?q=Kedai%20Bersahaja%20Balowerti%20Kediri&t=&z=16&ie=UTF8&iwloc=&output=embed">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-[10px] text-stone-600 uppercase tracking-widest">
+            © 2026 Bersahaja Kedai Kopi.
+        </div>
+    </footer>
+
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-80 bg-white shadow-2xl translate-x-full transition-transform z-[60] p-6 flex flex-col">
+        <div class="flex justify-between items-center border-b pb-4 mb-4 text-stone-800">
+            <h3 class="text-xl font-bold">Keranjang</h3>
+            <button onclick="toggleCart()" class="text-3xl text-stone-400">×</button>
+        </div>
+        <div id="cart-items" class="flex-grow overflow-y-auto space-y-3">
+            <p class="text-stone-400 italic text-center py-20">Masih kosong...</p>
+        </div>
+        <div class="border-t pt-4">
+            <div class="flex justify-between font-bold text-lg mb-4 text-stone-800">
+                <span>Total:</span>
+                <span id="cart-total">Rp 0</span>
+            </div>
+            <button onclick="showCheckout()" class="w-full bg-orange-600 text-white py-4 rounded-xl font-bold hover:bg-orange-700 transition">Bayar via QRIS</button>
+        </div>
+    </div>
+
+    <div id="qris-modal" class="modal items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-2xl max-w-xs w-full text-center relative shadow-2xl">
+            <button onclick="closeCheckout()" class="absolute top-2 right-4 text-2xl text-stone-300">×</button>
+            <h3 class="font-bold mb-1 text-stone-800">Pembayaran QRIS</h3>
+            <div class="bg-stone-50 p-4 rounded-xl mb-4 mt-4">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BERSAHAJA_KEDIRI" class="mx-auto w-40 h-40">
+            </div>
+            <p id="total-payment" class="text-2xl font-bold text-orange-600 mb-4">Rp 0</p>
+            <button onclick="closeCheckout()" class="w-full bg-stone-800 text-white py-3 rounded-lg font-bold">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('translate-x-full'); }
+        function addToCart(name, price) {
+            const item = cart.find(i => i.name === name);
+            if (item) { item.qty += 1; } else { cart.push({ name, price, qty: 1 }); }
+            updateUI();
+            if(document.getElementById('cart-sidebar').classList.contains('translate-x-full')) toggleCart();
+        }
+        function updateUI() {
+            const container = document.getElementById('cart-items');
+            const totalLabel = document.getElementById('cart-total');
+            const countLabel = document.getElementById('cart-count');
+            countLabel.innerText = cart.reduce((a, b) => a + b.qty, 0);
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-stone-400 italic text-center py-20">Masih kosong...</p>';
+                totalLabel.innerText = 'Rp 0';
+                return;
+            }
+            container.innerHTML = cart.map((item, i) => `
+                <div class="flex justify-between items-center bg-stone-50 p-3 rounded-lg">
+                    <div class="flex-grow"><p class="font-bold text-sm text-stone-800">${item.name}</p><p class="text-xs text-stone-500">Rp ${item.price.toLocaleString()}</p></div>
+                    <button onclick="cart.splice(${i},1); updateUI()" class="text-xs text-red-500 font-semibold">Hapus</button>
+                </div>
+            `).join('');
+            const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+            totalLabel.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+        function showCheckout() {
+            if(cart.length === 0) return;
+            const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+            document.getElementById('total-payment').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            document.getElementById('qris-modal').style.display = 'flex';
+        }
+        function closeCheckout() { document.getElementById('qris-modal').style.display = 'none'; }
+    </script>
+</body>
+</html>
